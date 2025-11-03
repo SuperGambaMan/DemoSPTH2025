@@ -50,4 +50,21 @@ class DemoSpTh2025ApplicationTests {
         }
     }
 
+    @Test
+    void testCreate(){
+        Cliente cliente = Cliente.builder().nombre("José")
+                        .apellido1("Martín")
+                        .apellido2("Tejero")
+                        .ciudad("Málaga")
+                        .categoria(1)
+                        .build();
+
+        System.out.println("Antes de crear id "+cliente.getId());
+
+        clienteDAO.create(cliente);
+
+        System.out.println("Despues de crear id "+cliente.getId());
+
+    }
+
 }

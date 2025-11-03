@@ -5,8 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +26,38 @@ public class ClienteDAOImpl implements ClienteDAO{
 
     @Override
     public void create(Cliente cliente) {
+        String sql = """
+                insert into cliente (nombre, apellido1, apellido2, ciudad, categoría)
+                values (                  ?,         ?,         ?,      ?,         ?);
+                """;
 
+        String[] ids = {"id"};
+        // Keyholder para recuperar el id autoincremental
+        KeyHolder keyholder = new GeneratedKeyHolder();
+        //Con recuperación de id generado
+
+        jdbcTemplate.update(sql,
+                cliente.getNombre(),
+                cliente.getApellido1(),
+                cliente.getApellido2(),
+                cliente.getCiudad(),
+                cliente.getCategoria()
+        );
+        /* Otra manera de hacerlo
+        jdbcTemplate.update(con -> {
+
+            PreparedStatement ps = con.prepareStatement(sql,ids);
+            ps.setString(1, cliente.getNombre()); //set String por que es una palabra
+            ps.setString(2, cliente.getApellido1());
+            ps.setString(3, cliente.getApellido2());
+            ps.setString(4, cliente.getCiudad());
+            ps.setInt(5,cliente.getCategoria()); //set INT por que es un numero
+
+            return ps;
+        },keyholder);
+
+        cliente.setId(keyholder.getKey().intValue());
+*/
     }
 
     @Override
