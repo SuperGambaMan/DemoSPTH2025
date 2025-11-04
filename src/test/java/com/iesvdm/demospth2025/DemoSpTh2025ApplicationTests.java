@@ -1,7 +1,9 @@
 package com.iesvdm.demospth2025;
 
 import com.iesvdm.demospth2025.dao.ClienteDAO;
+import com.iesvdm.demospth2025.dao.ComercialDAO;
 import com.iesvdm.demospth2025.modelo.Cliente;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +18,8 @@ class DemoSpTh2025ApplicationTests {
 
     @Autowired
     ClienteDAO  clienteDAO;
+    @Autowired
+    ComercialDAO comercialDAO;
 
     @Test
     void contextLoads() {
@@ -63,7 +67,44 @@ class DemoSpTh2025ApplicationTests {
 
         clienteDAO.create(cliente);
 
+        cliente.setNombre("José Manuel");
+
         System.out.println("Despues de crear id "+cliente.getId());
+
+        clienteDAO.update(cliente);
+
+
+
+        Optional<Cliente> optionalClienteReal = clienteDAO.find(cliente.getId());
+
+        if(optionalClienteReal.isPresent()) {
+            Assertions.assertEquals("José Manuel", optionalClienteReal.get().getNombre());
+        } else{
+            Assertions.fail();
+        }
+
+    }
+
+    @Test
+    void testDelete(){
+
+        Cliente cliente = Cliente.builder().nombre("José")
+                .apellido1("Martín")
+                .apellido2("Tejero")
+                .ciudad("Málaga")
+                .categoria(1)
+                .build();
+
+        System.out.println("Antes de crear id "+cliente.getId());
+
+        clienteDAO.create(cliente);
+
+        clienteDAO.delete(cliente.getId());
+
+        Optional<Cliente> optionalClienteReal = clienteDAO.find(cliente.getId());
+
+        Assertions.assertTrue(optionalClienteReal.isEmpty());
+
 
     }
 

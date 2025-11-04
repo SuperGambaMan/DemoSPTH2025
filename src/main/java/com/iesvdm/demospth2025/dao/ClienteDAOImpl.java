@@ -35,15 +35,17 @@ public class ClienteDAOImpl implements ClienteDAO{
         // Keyholder para recuperar el id autoincremental
         KeyHolder keyholder = new GeneratedKeyHolder();
         //Con recuperación de id generado
-
+/*
         jdbcTemplate.update(sql,
                 cliente.getNombre(),
                 cliente.getApellido1(),
                 cliente.getApellido2(),
                 cliente.getCiudad(),
                 cliente.getCategoria()
+
         );
-        /* Otra manera de hacerlo
+ */
+        //Otra manera de hacerlo
         jdbcTemplate.update(con -> {
 
             PreparedStatement ps = con.prepareStatement(sql,ids);
@@ -57,7 +59,7 @@ public class ClienteDAOImpl implements ClienteDAO{
         },keyholder);
 
         cliente.setId(keyholder.getKey().intValue());
-*/
+
     }
 
     @Override
@@ -113,10 +115,32 @@ public class ClienteDAOImpl implements ClienteDAO{
     @Override
     public void update(Cliente cliente) {
 
+        int rowsUpdate = jdbcTemplate.update("""
+                UPDATE cliente
+                SET nombre = ?, apellido1 = ?, apellido2 = ?, ciudad = ?, categoría =?
+                WHERE id = ?;
+                """ ,
+                cliente.getNombre(),
+                cliente.getApellido1(),
+                cliente.getApellido2(),
+                cliente.getCiudad(),
+                cliente.getCategoria(),
+                cliente.getId());
+
+                log.debug ("Filas actualizadas {}", rowsUpdate);
+
     }
 
     @Override
     public void delete(int id) {
+
+        int rowsDelete = jdbcTemplate.update("""
+                DELETE FROM cliente
+                WHERE id = ?;
+                """ ,
+                id);
+
+        log.debug ("Filas actualizadas {}", rowsDelete);
 
     }
 }

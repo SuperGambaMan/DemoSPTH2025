@@ -1,8 +1,12 @@
 package com.iesvdm.demospth2025.modelo;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
+@Builder
 public class Comercial {
 
     private int id;
