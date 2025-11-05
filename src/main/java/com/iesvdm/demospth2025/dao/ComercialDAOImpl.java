@@ -12,6 +12,12 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Optional;
+/*
+//Anotación lombok para logging (traza) de la aplicación
+@Slf4j
+//Un Repository es un componente y a su vez un estereotipo de Spring
+//que forma parte de la 'capa de persistencia'.
+@Repository
 
 public class ComercialDAOImpl {
 
@@ -29,6 +35,8 @@ public class ComercialDAOImpl {
         // Keyholder para recuperar el id autoincremental
         KeyHolder keyholder = new GeneratedKeyHolder();
         //Con recuperación de id generado
+
+ */
 /*
         jdbcTemplate.update(sql,
                 comercial.getNombre(),
@@ -39,6 +47,7 @@ public class ComercialDAOImpl {
 
         );
  */
+/*
         //Otra manera de hacerlo
         jdbcTemplate.update(con -> {
 
@@ -135,3 +144,4 @@ public class ComercialDAOImpl {
     }
 
 }
+*/
