@@ -12,14 +12,14 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Optional;
-/*
+
 //Anotación lombok para logging (traza) de la aplicación
 @Slf4j
 //Un Repository es un componente y a su vez un estereotipo de Spring
 //que forma parte de la 'capa de persistencia'.
 @Repository
 
-public class ComercialDAOImpl {
+public class ComercialDAOImpl implements ComercialDAO {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -27,8 +27,8 @@ public class ComercialDAOImpl {
     @Override
     public void create(Comercial comercial) {
         String sql = """
-                insert into comercial (nombre, apellido1, apellido2, ciudad, categoría)
-                values (                  ?,         ?,         ?,      ?,         ?);
+                insert into comercial (nombre, apellido1, apellido2, comisión)
+                values (                  ?,         ?,         ?,      ?);
                 """;
 
         String[] ids = {"id"};
@@ -36,7 +36,6 @@ public class ComercialDAOImpl {
         KeyHolder keyholder = new GeneratedKeyHolder();
         //Con recuperación de id generado
 
- */
 /*
         jdbcTemplate.update(sql,
                 comercial.getNombre(),
@@ -47,7 +46,7 @@ public class ComercialDAOImpl {
 
         );
  */
-/*
+
         //Otra manera de hacerlo
         jdbcTemplate.update(con -> {
 
@@ -55,7 +54,7 @@ public class ComercialDAOImpl {
             ps.setString(1, comercial.getNombre()); //set String por que es una palabra
             ps.setString(2, comercial.getApellido1());
             ps.setString(3, comercial.getApellido2());
-            ps.setDouble(5,comercial.getComision()); //set INT por que es un numero
+            ps.setDouble(4,comercial.getComision()); //set DOUBLE por que es un numero
 
             return ps;
         },keyholder);
@@ -144,4 +143,3 @@ public class ComercialDAOImpl {
     }
 
 }
-*/
