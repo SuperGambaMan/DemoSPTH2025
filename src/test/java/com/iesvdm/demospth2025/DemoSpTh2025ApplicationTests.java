@@ -76,7 +76,10 @@ class DemoSpTh2025ApplicationTests {
 
     @Test
     void testCreateCliente(){
-        Cliente cliente = Cliente.builder().nombre("José")
+
+        //Creaamos un Objeto de Cliente con toda la información
+        Cliente cliente = Cliente.builder()
+                        .nombre("José")
                         .apellido1("Martín")
                         .apellido2("Tejero")
                         .ciudad("Málaga")
@@ -85,17 +88,13 @@ class DemoSpTh2025ApplicationTests {
 
         System.out.println("Antes de crear id "+cliente.getId());
 
+        //Introducimos la fila en la tabla con la informacion de Cliente
         clienteDAO.create(cliente);
-
-        cliente.setNombre("José Manuel");
 
         System.out.println("Despues de crear id "+cliente.getId());
 
-        clienteDAO.update(cliente);
-
-
         Optional<Cliente> optionalClienteReal = clienteDAO.find(cliente.getId());
-
+        // Comprobamos hemos rellenado con un Optional la casilla que acabamos de crear
         if(optionalClienteReal.isPresent()) {
             Assertions.assertEquals("José Manuel", optionalClienteReal.get().getNombre());
         } else{
@@ -105,28 +104,34 @@ class DemoSpTh2025ApplicationTests {
     }
 
     @Test
-    void testCreateComercial(){
-        Comercial comercial = Comercial.builder().nombre("Pepe")
-                .apellido1("Muñoz")
-                .apellido2("Perez")
-                .comision(0.25)
+    void testUpdateCliente(){
+
+        //Creaamos un Objeto de Cliente con toda la información
+        Cliente cliente = Cliente.builder()
+                .nombre("José")
+                .apellido1("Martín")
+                .apellido2("Tejero")
+                .ciudad("Málaga")
+                .categoria(1)
                 .build();
 
-        System.out.println("Antes de crear id "+comercial.getId());
+        System.out.println("Antes de crear id "+cliente.getId());
 
-        comercialDAO.create(comercial);
+        //Introducimos la fila en la tabla con la informacion de Cliente
+        clienteDAO.create(cliente);
 
-        comercial.setNombre("José Manuel");
+        cliente.setNombre("José Manuel");
 
-        System.out.println("Despues de crear id "+comercial.getId());
+        System.out.println("Despues de crear id "+cliente.getId());
 
-        comercialDAO.update(comercial);
+        //Cambiamos el Nombre y actualizamos la fila del cliente que acabamos de crear
+        clienteDAO.update(cliente);
 
 
-        Optional<Comercial> optionalComercialReal = comercialDAO.find(comercial.getId());
-
-        if(optionalComercialReal.isPresent()) {
-            Assertions.assertEquals("José Manuel", optionalComercialReal.get().getNombre());
+        Optional<Cliente> optionalClienteReal = clienteDAO.find(cliente.getId());
+        // Comprobamos hemos rellenado con un Optional la casilla que acabamos de crear y actualizar
+        if(optionalClienteReal.isPresent()) {
+            Assertions.assertEquals("José Manuel", optionalClienteReal.get().getNombre());
         } else{
             Assertions.fail();
         }
@@ -136,6 +141,7 @@ class DemoSpTh2025ApplicationTests {
     @Test
     void testDeleteCliente(){
 
+        //Creaamos un Objeto de Cliente con toda la información
         Cliente cliente = Cliente.builder().nombre("José")
                 .apellido1("Martín")
                 .apellido2("Tejero")
@@ -145,21 +151,24 @@ class DemoSpTh2025ApplicationTests {
 
         System.out.println("Antes de crear id "+cliente.getId());
 
+        //Introducimos la fila en la tabla con la informacion de Cliente
         clienteDAO.create(cliente);
 
+        //Eliminamos la fila del cliente que acabamos de crear
         clienteDAO.delete(cliente.getId());
 
         Optional<Cliente> optionalClienteReal = clienteDAO.find(cliente.getId());
 
+        // Comprobamos que esta vacia con un Optional la casilla que hemos eliminado
         Assertions.assertTrue(optionalClienteReal.isEmpty());
-
-
     }
 
     @Test
-    void testDeleteComercial(){
+    void testCreateComercial(){
 
-        Comercial comercial = Comercial.builder().nombre("Pepe")
+        //Creaamos un Objeto de Comercial con toda la información
+        Comercial comercial = Comercial.builder()
+                .nombre("Pepe")
                 .apellido1("Muñoz")
                 .apellido2("Perez")
                 .comision(0.25)
@@ -167,15 +176,68 @@ class DemoSpTh2025ApplicationTests {
 
         System.out.println("Antes de crear id "+comercial.getId());
 
+        //Introducimos la fila en la tabla con la informacion de Comercial
         comercialDAO.create(comercial);
 
+        System.out.println("Despues de crear id "+comercial.getId());
+
+        Optional<Comercial> optionalComercialReal = comercialDAO.find(comercial.getId());
+        // Comprobamos hemos rellenado con un Optional la casilla que acabamos de crear
+        if(optionalComercialReal.isPresent()) {
+            Assertions.assertEquals("Pepe", optionalComercialReal.get().getNombre());
+        } else{
+            Assertions.fail();
+        }
+
+    }
+
+    @Test
+    void testUpdateComercial() {
+
+        //Creaamos un Objeto de Comercial con toda la información
+        Comercial comercial = Comercial.builder()
+                .nombre("Pepe")
+                .apellido1("Muñoz")
+                .apellido2("Perez")
+                .comision(0.25)
+                .build();
+
+        //Introducimos la fila en la tabla con la informacion de Comercial
+        comercialDAO.create(comercial);
+
+        //Cambiamos el Nombre y actualizamos la fila del comercial que acabamos de crear
+        comercial.setNombre("Jose Andres");
+        comercialDAO.update(comercial);
+
+        Optional<Comercial> optionalComercialReal = comercialDAO.find(comercial.getId());
+        // Comprobamos hemos rellenado con un Optional la casilla que acabamos de crear y actualizar
+        if(optionalComercialReal.isPresent()) {
+            Assertions.assertEquals("Jose Andres", optionalComercialReal.get().getNombre());
+        } else{
+            Assertions.fail();
+        }
+    }
+
+    @Test
+    void testDeleteComercial(){
+
+        //Creaamos un Objeto de Comercial con toda la información
+        Comercial comercial = Comercial.builder()
+                .nombre("Marcos")
+                .apellido1("Bernal")
+                .apellido2("Urban")
+                .comision(0.30)
+                .build();
+
+        //Introducimos la fila en la tabla con la informacion de Comercial
+        comercialDAO.create(comercial);
+
+        //Eliminamos la fila del comercial que acabamos de crear
         comercialDAO.delete(comercial.getId());
 
         Optional<Comercial> optionalComercialReal = comercialDAO.find(comercial.getId());
-
+        // Comprobamos que esta vacia con un Optional la casilla que hemos eliminado
         Assertions.assertTrue(optionalComercialReal.isEmpty());
-
-
     }
 
 }
