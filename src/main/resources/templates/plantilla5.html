@@ -1,0 +1,22 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"> <!-- Tenemos que escribir esta ruta con xmlns para poder usar TH -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Plantilla5</title>
+</head>
+<body>
+
+<a th:href="@{/registrar}" th:text="'Registrar cliente'"></a>
+<br/>
+<br/>
+<!-- QUERY PARAMs -->
+<a th:href="@{/clientes(id=${cliente.id},nombre=${cliente.nombre})}"
+   th:text="'Ir a cliente: '+${cliente.id}"></a>
+<br/>
+<br/>
+<a th:href="@{/clientes/{id}/editar(id=${cliente.id})}"
+   th:text="'Editar cliente: '+${cliente.id}"></a>
+
+</body>
+</html>
