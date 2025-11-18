@@ -1,10 +1,14 @@
 package com.iesvdm.demospth2025.controller;
 
+import com.iesvdm.demospth2025.dao.ClienteDAO;
 import com.iesvdm.demospth2025.modelo.Cliente;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -12,6 +16,8 @@ import java.util.List;
 public class DemothController {
 
     //SIN SERVICE, SOLO ACTUAR SOBRE PLANTILLAS HTML
+
+
 
     //ENDPOINTS
 
@@ -69,6 +75,40 @@ public class DemothController {
         model.addAttribute("cliente", cliente);
 
         return "plantilla5.html";
+    }
+
+    @GetMapping("/demoth/crear")
+    public String demothCrear(Model model) {
+
+        Cliente cliente = new Cliente();
+        model.addAttribute("cliente", cliente);
+
+        return "demoth-crear";
+
+    }
+
+    //Necesitamos @Autowired de ClienteDao para poder llamarlo para crear un cliente
+    @Autowired
+    private ClienteDAO clienteDAO;
+
+    @PostMapping("/demoth/crear")
+    public String demothCrearSubmit(@ModelAttribute Cliente cliente) {
+
+        clienteDAO.create(cliente);
+
+        return "redirect:/demoth/listar";
+
+    }
+
+    @GetMapping("/demoth/listar")
+    public String demothListar(Model model){
+
+        // hacemos una lista de todos los clientes getAll()
+        List<Cliente> clientes= clienteDAO.getAll();
+        // añadimos atributo en clientes de lista de clientes
+        model.addAttribute("clientes",clientes);
+
+        return "demoth-listar";
     }
 
 }

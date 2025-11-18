@@ -3,10 +3,12 @@ package com.iesvdm.demospth2025.modelo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @Builder
+@NoArgsConstructor
 public class Cliente {
 
     private int id;
